@@ -1,4 +1,8 @@
-# Joke fetcher GUI
+# Joke Pop
+
+Display some jokes fetched from different APIs
+
+![](docs/images/joke-pop.png)
 
 ## Install latest version
 
@@ -9,5 +13,9 @@ curl https://raw.githubusercontent.com/dennisdebest/joke-pop/master/install.sh |
 ## Start the app
 
 ```shell
-joke-pop &> /dev/null
+joke-pop
 ```
+
+## About
+
+This was created to test the [Wails](https://github.com/wailsapp/wails) desktop app generation.
