@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/dennisdebest/joke-fetcher v0.0.4
-	github.com/wailsapp/wails/v2 v2.0.0-beta.40
+	github.com/wailsapp/wails/v2 v2.0.0-beta.42
 )
 
 require (
