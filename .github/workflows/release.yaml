@@ -1,0 +1,30 @@
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+name: Create Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: svenstaro/upx-action@v2
+      - name: build release
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.18'
+          check-latest: true
+          cache: true
+      - run:  wails build -upx -upxflags="--best --lzma" -platform linux/amd64 -o joke-pop-linux-amd64
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: joke-pop-linux-amd64
+          asset_name: joke-pop-linux-amd64
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: Release ${{ github.ref }}
