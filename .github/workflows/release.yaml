@@ -26,7 +26,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: joke-pop-linux-amd64
+          file: build/bin/joke-pop-linux-amd64
           asset_name: joke-pop-linux-amd64
           tag: ${{ github.ref }}
           overwrite: true
