@@ -22,5 +22,10 @@ func (a *App) startup(ctx context.Context) {
 }
 
 func (a *App) Joke(name string) string {
-	return api.CallApiByName(name)
+	return api.CallApiByName(name, false)
+}
+
+func (a *App) GetApis() api.Apis {
+	api.GetApis()
+	return api.ListApis
 }
