@@ -3,7 +3,7 @@ module joke-pop
 go 1.17
 
 require (
-	github.com/dennisdebest/joke-fetcher v0.0.6
+	github.com/dennisdebest/joke-fetcher v0.0.7
 	github.com/wailsapp/wails/v2 v2.0.0-beta.43
 )
 

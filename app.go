@@ -33,8 +33,9 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-func (a *App) Joke(name string) string {
-	return api.CallApiByName(name, false)
+func (a *App) Joke(name string) (string, error) {
+	joke, err := api.CallApiByName(name, false)
+	return joke, err
 }
 
 func (a *App) GetApis() api.Apis {

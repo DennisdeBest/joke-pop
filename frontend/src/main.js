@@ -4,6 +4,7 @@ import './app.css';
 import {GetApis, Joke} from '../wailsjs/go/main/App';
 
 document.querySelector('#app').innerHTML = `
+      <div class="error-box" id="error"></div>
       <div class="input-box" id="input">
       <h1>😆 Go grab a joke 😆</h1>
         <div id="button-list"></div>
@@ -13,6 +14,7 @@ document.querySelector('#app').innerHTML = `
 `;
 
 let resultElement = document.getElementById("output");
+let errorElement = document.getElementById("error");
 
 function addResult(content) {
     let newResultElement = document.createElement('div')
@@ -48,6 +50,7 @@ window.joke = function (name) {
     try {
         Joke(name)
             .then((result) => {
+                errorElement.innerText = ""
                 addResult(result)
                 const results = resultElement.children
                 if (results.length > 5) {
@@ -55,9 +58,16 @@ window.joke = function (name) {
                 }
             })
             .catch((err) => {
-                console.error(err);
+                showError(err)
             });
     } catch (err) {
-        console.error(err);
+        showError(err)
     }
 };
+
+function showError(error) {
+    console.error(error);
+    errorElement.style.display = "block"
+    errorElement.innerText = error
+    setTimeout(() => errorElement.style.display = "none", 3000);
+}
