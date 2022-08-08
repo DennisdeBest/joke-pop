@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/dennisdebest/joke-fetcher v0.0.6
-	github.com/wailsapp/wails/v2 v2.0.0-beta.42
+	github.com/wailsapp/wails/v2 v2.0.0-beta.43
 )
 
 require (
@@ -33,5 +33,3 @@ require (
 	golang.org/x/sys v0.0.0-20220114195835-da31bd327af9 // indirect
 	golang.org/x/text v0.3.7 // indirect
 )
-
-// replace github.com/wailsapp/wails/v2 v2.0.0-beta.40 => /home/dennis/go/pkg/mod/github.com/wailsapp/wails/v2@v2.0.0-beta.40
