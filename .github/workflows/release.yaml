@@ -21,7 +21,7 @@ jobs:
         run: |
           sudo apt update -y && sudo apt-get -y install libwebkit2gtk-4.0-dev
       - run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
-      - run:  wails build -upx -upxflags="--best --lzma" -ldflags="-X 'main.Version=${{ github.ref }}'" -platform linux/amd64 -o joke-pop-linux-amd64
+      - run:  wails build -upx -upxflags="--best --lzma" -ldflags="-X 'main.Version=${{ github.ref_name }}'" -platform linux/amd64 -o joke-pop-linux-amd64
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
