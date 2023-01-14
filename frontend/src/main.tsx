@@ -1,37 +1,42 @@
 import './style.css';
 import './app.scss';
-import React from 'react';
+import React, {useEffect} from 'react';
 import ReactDOM from 'react-dom/client';
-
 import {GetApis, Joke} from '../wailsjs/go/main/App';
 
 
-function App() {
-
-
-  let resultElement = document.getElementById("output");
-  let errorElement = document.getElementById("error");
+export default function App() {
 
   function addResult(content) {
+    let resultElement = document.getElementById("output");
+    let errorElement = document.getElementById("error");
     let newResultElement = document.createElement('div')
     newResultElement.innerText = content
     resultElement.prepend(newResultElement)
     resultElement.scrollTo(0, 0)
   }
 
-  let buttonContainer = document.getElementById("button-list");
+  useEffect(() => {
+    let buttonContainer = document.getElementById("button-list");
+    const fetchApis = async () => {
+      const apis = await getApis()
+      console.log("apis", apis)
+      if(!apis || !buttonContainer) return
+      buttonContainer.innerHTML = ''
+      apis.forEach((api) => {
+        let button = document.createElement("button")
+        console.log("api", api)
+        button.innerText = api.title
+        button.classList.add('btn')
+        button.onclick = function() {joke(api.name)}
+        buttonContainer.appendChild(button)
+      })
+    }
 
-  window.addEventListener('load', async () => {
-    const apis = await getApis()
-    if(!apis || !buttonContainer) return
-    apis.forEach((api) => {
-      let button = document.createElement("button")
-      button.innerText = api.title
-      button.classList.add('btn')
-      button.onclick = function() {joke(api.name)}
-      buttonContainer.appendChild(button)
-    })
-  })
+    fetchApis()
+
+  }, [])
+
 
 
   async function getApis() {
@@ -44,6 +49,8 @@ function App() {
   }
 
   function joke(name: string) {
+    let resultElement = document.getElementById("output");
+    let errorElement = document.getElementById("error");
     try {
       Joke(name)
         .then((result) => {
@@ -60,9 +67,11 @@ function App() {
     } catch (err) {
       showError(err)
     }
-  };
+  }
 
   function showError(error) {
+    let resultElement = document.getElementById("output");
+    let errorElement = document.getElementById("error");
     console.error(error);
     errorElement.style.display = "block"
     errorElement.innerText = error
