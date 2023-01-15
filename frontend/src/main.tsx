@@ -3,9 +3,19 @@ import './app.scss';
 import React, {useEffect} from 'react';
 import ReactDOM from 'react-dom/client';
 import {GetApis, Joke} from '../wailsjs/go/main/App';
+import Button from "./components/button";
+import {
+  getMouseEventButton
+} from "@testing-library/user-event/system/pointer/buttons";
 
+interface Api {
+  name: string,
+  title: string
+}
 
 export default function App() {
+
+  let apis: Api[] = []
 
   function addResult(content) {
     let resultElement = document.getElementById("output");
@@ -17,25 +27,23 @@ export default function App() {
   }
 
   useEffect(() => {
-    let buttonContainer = document.getElementById("button-list");
     const fetchApis = async () => {
-      const apis = await getApis()
-      console.log("apis", apis)
-      if(!apis || !buttonContainer) return
-      buttonContainer.innerHTML = ''
-      apis.forEach((api) => {
-        let button = document.createElement("button")
-        console.log("api", api)
-        button.innerText = api.title
-        button.classList.add('btn')
-        button.onclick = function() {joke(api.name)}
-        buttonContainer.appendChild(button)
-      })
+      apis = await getApis() as Api[]
+      if(!apis) return
+      // buttonContainer.innerHTML = ''
+      // apis.forEach((api) => {
+      //   let button = document.createElement("button")
+      //   console.log("api", api)
+      //   button.innerText = api.title
+      //   button.classList.add('btn')
+      //   button.onclick = function() {joke(api.name)}
+      //   buttonContainer.appendChild(button)
+      // })
     }
 
     fetchApis()
 
-  }, [])
+  }, [apis])
 
 
 
@@ -83,7 +91,12 @@ export default function App() {
       <div className="error-box" id="error"></div>
       <div className="input-box" id="input">
         <h1>😆 Go grab a joke !! 😆</h1>
-        <div id="button-list"></div>
+        <div id="button-list">
+          {apis.map((api: Api) =>
+             <Button key={api.title} apiTitle={api.title} apiName={api.name}/>
+          )
+          }
+        </div>
       </div>
       <div className="output-box" id="output"></div>
     </div>
