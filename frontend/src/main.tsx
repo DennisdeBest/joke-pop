@@ -1,12 +1,10 @@
 import './style.css';
 import './app.scss';
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import ReactDOM from 'react-dom/client';
 import {GetApis, Joke} from '../wailsjs/go/main/App';
 import Button from "./components/button";
-import {
-  getMouseEventButton
-} from "@testing-library/user-event/system/pointer/buttons";
+import JokeElement from "./components/joke";
 
 interface Api {
   name: string,
@@ -14,37 +12,39 @@ interface Api {
 }
 
 export default function App() {
+  const [apis, setApis] = useState<Api[]>([])
+  const [jokes, setJokes] = useState<string[]>([])
+  const [error, setError] = useState<string | null>(null)
 
-  let apis: Api[] = []
 
-  function addResult(content) {
-    let resultElement = document.getElementById("output");
-    let errorElement = document.getElementById("error");
-    let newResultElement = document.createElement('div')
-    newResultElement.innerText = content
-    resultElement.prepend(newResultElement)
-    resultElement.scrollTo(0, 0)
+  const jokeRef = useRef<null | HTMLDivElement>(null)
+
+  function addResult(content: string) {
+    if (jokes.length > 4) {
+      jokes.pop()
+    }
+
+    setJokes([content, ...jokes])
   }
 
   useEffect(() => {
     const fetchApis = async () => {
-      apis = await getApis() as Api[]
-      if(!apis) return
-      // buttonContainer.innerHTML = ''
-      // apis.forEach((api) => {
-      //   let button = document.createElement("button")
-      //   console.log("api", api)
-      //   button.innerText = api.title
-      //   button.classList.add('btn')
-      //   button.onclick = function() {joke(api.name)}
-      //   buttonContainer.appendChild(button)
-      // })
+      const response = await getApis() as Api[]
+      if (!response) return
+      setApis(response)
     }
 
     fetchApis()
 
-  }, [apis])
-
+    if (jokeRef.current) {
+      jokeRef.current.scrollIntoView(
+        {
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest'
+        })
+    }
+  })
 
 
   async function getApis() {
@@ -57,54 +57,45 @@ export default function App() {
   }
 
   function joke(name: string) {
-    let resultElement = document.getElementById("output");
-    let errorElement = document.getElementById("error");
     try {
       Joke(name)
         .then((result) => {
-          errorElement.innerText = ""
+          setError(null)
           addResult(result)
-          const results = resultElement.children
-          if (results.length > 5) {
-            resultElement.removeChild(resultElement.lastElementChild)
-          }
         })
         .catch((err) => {
-          showError(err)
+          setError(err)
         });
-    } catch (err) {
-      showError(err)
+    } catch (err: any) {
+      setError(err)
     }
   }
 
-  function showError(error) {
-    let resultElement = document.getElementById("output");
-    let errorElement = document.getElementById("error");
-    console.error(error);
-    errorElement.style.display = "block"
-    errorElement.innerText = error
-    setTimeout(() => errorElement.style.display = "none", 3000);
-  }
-
   return (
-    <div className="App">
-      <div className="error-box" id="error"></div>
+    <div className="App" ref={jokeRef}>
+      {error && <div className="error-box" id="error">{error}</div>}
       <div className="input-box" id="input">
         <h1>😆 Go grab a joke !! 😆</h1>
         <div id="button-list">
-          {apis.map((api: Api) =>
-             <Button key={api.title} apiTitle={api.title} apiName={api.name}/>
+          {apis?.map((api: Api) =>
+            <Button key={api.title} apiTitle={api.title} apiName={api.name}
+                    onClick={() => joke(api.name)}/>
           )
           }
         </div>
       </div>
-      <div className="output-box" id="output"></div>
+      <div className="output-box" id="output">
+        {jokes?.map((joke: string) =>
+          <JokeElement value={joke}/>
+        )
+        }
+      </div>
     </div>
   );
 }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <App/>
   </React.StrictMode>
 )

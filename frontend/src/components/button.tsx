@@ -1,7 +1,20 @@
-import {useState} from "react";
+import {func, string} from "prop-types";
 
-const Button = ({apiName = '', apiTitle = ''}) => {
+const Button = ({apiName, apiTitle, onClick}) => {
   return (
-    <button data-name={apiName}>{apiTitle}</button>
-  )
-}
+    <button type="button" onClick={onClick} className="btn" data-name={apiName}>{apiTitle}</button>
+  );
+};
+
+Button.propTypes = {
+  apiName: string,
+  apiTitle: string,
+  onClick: func,
+};
+
+Button.defaultProps = {
+  apiName: '',
+  apiTitle: '',
+  onClick: () => {},
+};
+export default Button;
