@@ -5,11 +5,16 @@ import ReactDOM from 'react-dom/client';
 import {GetApis, Joke} from '../wailsjs/go/main/App';
 import Button from "./components/button";
 import JokeElement from "./components/joke";
+import {api} from "../wailsjs/go/models";
 
 interface Api {
   name: string,
   title: string
 }
+
+const exceptedApis = [
+  'yomomma', 'chuck-noris', 'dad-jokes', 'jokeapi-single'
+]
 
 export default function App() {
   const [apis, setApis] = useState<Api[]>([])
@@ -31,7 +36,8 @@ export default function App() {
     const fetchApis = async () => {
       const response = await getApis() as Api[]
       if (!response) return
-      setApis(response)
+      const apisToDisplay = response.filter(api => exceptedApis.includes(api.name))
+      setApis(apisToDisplay)
     }
 
     fetchApis()
