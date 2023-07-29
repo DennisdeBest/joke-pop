@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/dennisdebest/joke-fetcher v0.0.8
-	github.com/wailsapp/wails/v2 v2.3.1
+	github.com/wailsapp/wails/v2 v2.5.1
 )
 
 require (
@@ -12,7 +12,6 @@ require (
 	github.com/emvi/null v1.3.1 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/google/uuid v1.3.0 // indirect
-	github.com/imdario/mergo v0.3.16 // indirect
 	github.com/jchv/go-winloader v0.0.0-20210711035445-715c2860da7e // indirect
 	github.com/labstack/echo/v4 v4.11.1 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect

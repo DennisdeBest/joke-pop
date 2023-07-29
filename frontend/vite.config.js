@@ -9,6 +9,7 @@ export default defineConfig({
       input: {
         bundle: 'src/main.tsx',
         styles: 'src/app.scss',
+        index: 'index.html'
       },
     },
   },
