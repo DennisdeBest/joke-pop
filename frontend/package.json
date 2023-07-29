@@ -19,7 +19,7 @@
     "react-error-boundary": "^3.1.4",
     "react-router-dom": "^6.3.0",
     "sass": "^1.54.3",
-    "vite": "^2.9.9",
+    "vite": "^3.0.0",
     "@babel/core": "^7.18.9",
     "@emotion/babel-plugin": "^11.9.2",
     "@emotion/babel-preset-css-prop": "^11.2.0",

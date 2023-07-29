@@ -4,7 +4,7 @@ export namespace api {
 	    name: string;
 	    title: string;
 	    url: string;
-	    // Go type: null.String
+	    // Go type: null
 	    field: any;
 	    queryParams: {[key: string]: any};
 	
