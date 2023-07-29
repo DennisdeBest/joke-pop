@@ -1,6 +1,6 @@
 module joke-pop
 
-go 1.20
+go 1.19
 
 require (
 	github.com/dennisdebest/joke-fetcher v0.0.8
